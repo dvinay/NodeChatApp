@@ -16,13 +16,29 @@ io.on('connection', (socket) => {
   console.log('new user connected');
 
   socket.emit('newMessage' , { //new event is firing
-    "from" : "Jhon",
-    "text" : "See you",
-    "createdAt" : new Date()
+    "from" : "Admin",
+    "text" : "Welcome to the Chat App",
+    "createdAt" : new Date().getTime()
   });
 
+  socket.broadcast.emit('newMessage', {
+    from : "Admin",
+    text : "new user has joined",
+    createdAt : new Date().getTime()
+  })
   socket.on('createMessage', (message) => {
     console.log('createMessage',message);
+
+    // io.emit('newMessage', { //fire the event to every connection because it's io emit
+    //   "from" : message.from,
+    //   "text" : message.text,
+    //   "createdAt" : new Date().getTime()
+    // });
+    // socket.broadcast.emit('newMessage', {
+    //   from : message.from,
+    //   text : message.text,
+    //   createdAt : new Date().getTime()
+    // });
   });
 
   socket.on('disconnect', () => {
